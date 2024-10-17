@@ -1,0 +1,30 @@
+Question 1:
+a) The UserFitness class has low cohesion because it handles too many unrelated responsibilities, such as managing personal details, tracking workouts, counting steps, and logging meals. These activities are distinct from each other and shouldn't be combined into a single class. Low cohesion makes the class harder to maintain, as any change in one area (e.g., workout tracking) could unnecessarily affect unrelated parts like meal logging.
+
+b) To improve cohesion, the class should be split into more specialized classes. For example, you could create separate classes like UserProfile for personal details (name, age, weight, height), WorkoutTracker for tracking workouts and calories burned, StepTracker for counting daily steps, and MealLogger for managing meals and calories consumed. Each class would focus on a single responsibility, making the design more modular and easier to maintain.
+
+Question 2:
+Student should be an abstract class because it provides a common structure for all student types, while subclasses like FirstYear and ThirdYear implement year-specific behaviors. This allows for polymorphism and shared functionality.
+a) The method is flawed because it modifies the students list while iterating over it, which can cause a ConcurrentModificationException. Arthur Riel’s heuristic advises against modifying collections during iteration. The solution is to use an iterator or collect third-year students separately before removing them from the list.
+
+Question 3:
+The BankAccount class is not well-encapsulated because its fields (accountHolderName, accountNumber, balance, and interestRate) are public, allowing direct access and modification from outside the class. To improve encapsulation, these fields should be made private, and public getter and setter methods should be provided to control access and ensure that the state of the object is modified safely and appropriately.
+
+Question 4:
+a) The current structure does not support changing the trim level dynamically because the trim levels (Base, Sports, and Luxury) are represented as subclasses of Car. Once a car is created with a specific trim level, it is locked into that subclass, and changing the trim level would require creating a new instance of the desired subclass. This violates the Open-Closed Principle, as changes to trim would require altering the class hierarchy or instantiating a new object
+b) To allow dynamic changes to the trim level, refactor the design to use composition instead of inheritance. Instead of having separate subclasses for each trim level, Car should have a TrimLevel class as a member variable. This way, the Car class can dynamically change its trim level by switching the TrimLevel object at runtime. The TrimLevel class can define the different behaviors and properties for each trim, and Car can delegate trim-specific functionality to the TrimLevel instance.
+
+Question 5:
+This could lead to code duplication, violating the principle of reuse and making maintenance harder. According to Arthur Riel's design heuristics, this indicates a potential failure to properly abstract common functionality. The solution is to refactor the shared code into a base class or use composition, so the different behaviors can be handled separately without duplicating code.
+
+Question 6:
+Placing database calls directly in the Car or BankAccount classes results in high coupling, violating the single responsibility principle. It's better to delegate database operations to a separate data access layer or repository class, which isolates the persistence logic and makes the classes more modular and easier to maintain.
+
+Question 7:
+To create a new class hierarchy, inheritance is appropriate when there is a clear "is-a" relationship between the classes, with shared behaviors that can be generalized in a superclass. The classes should adhere to the Liskov Substitution Principle, ensuring that subclasses can replace their superclass without breaking the functionality.
+
+Question 8:
+Inheritance represents an "is-a" relationship, while composition represents a "has-a" relationship. You choose inheritance when the classes share behavior, and composition when you want more flexibility, as it allows you to reuse functionality without creating rigid dependencies between classes.
+
+Question 9:
+Cohesion refers to how closely related and focused the responsibilities of a class are. High cohesion is preferable, as it makes the class more understandable, maintainable, and focused on a single responsibility, improving overall system design.
