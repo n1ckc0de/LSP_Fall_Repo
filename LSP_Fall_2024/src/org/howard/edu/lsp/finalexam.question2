@@ -1,0 +1,140 @@
+// In Eclipse, 
+// Step 1: Class RandomNumberService 
+
+package org.howard.edu.lsp.finalexam.question2;
+
+/**
+ * Singleton class that provides random number generation services.
+ */
+public class RandomNumberService {
+
+    private static RandomNumberService instance;
+    private RandomNumberStrategy strategy;
+
+    private RandomNumberService() {
+        // Default to built-in Random implementation
+        strategy = new JavaRandomNumberStrategy();
+    }
+
+    /**
+     * Get the singleton instance of the RandomNumberService.
+     * @return instance of RandomNumberService
+     */
+    public static RandomNumberService getInstance() {
+        if (instance == null) {
+            instance = new RandomNumberService();
+        }
+        return instance;
+    }
+
+    /**
+     * Set the strategy for random number generation.
+     * @param strategy the strategy to use for random number generation
+     */
+    public void setStrategy(RandomNumberStrategy strategy) {
+        this.strategy = strategy;
+    }
+
+    /**
+     * Generates a random number based on the current strategy.
+     * @return a positive integer random number
+     */
+    public int generateRandomNumber() {
+        return strategy.generateRandomNumber();
+    }
+}
+
+// Step 2: Create Interface RandomNumberStrategy 
+
+package org.howard.edu.lsp.finalexam.question2;
+
+/**
+ * Interface for random number generation strategies.
+ */
+public interface RandomNumberStrategy {
+    /**
+     * Generates a random number.
+     * @return a random positive integer
+     */
+    int generateRandomNumber();
+}
+
+
+// Step 3: New Class JavaRandomNumberStrategy
+
+package org.howard.edu.lsp.finalexam.question2;
+
+import java.util.Random;
+
+/**
+ * Random number generator using Java's built-in Random.
+ */
+public class JavaRandomNumberStrategy implements RandomNumberStrategy {
+
+    private Random random;
+
+    public JavaRandomNumberStrategy() {
+        random = new Random();
+    }
+
+    @Override
+    public int generateRandomNumber() {
+        return random.nextInt(100) + 1; // returns a number between 1 and 100
+    }
+}
+
+
+// Step 4: New Class LCGRandomNumberStrategy
+
+package org.howard.edu.lsp.finalexam.question2;
+
+/**
+ * Random number generator using Linear Congruential Generator (LCG) algorithm.
+ */
+public class LCGRandomNumberStrategy implements RandomNumberStrategy {
+
+    private long seed;
+
+    public LCGRandomNumberStrategy(long seed) {
+        this.seed = seed;
+    }
+
+    @Override
+    public int generateRandomNumber() {
+        seed = (seed * 1664525L + 1013904223L) & 0xFFFFFFFF;
+        return (int)(seed % 100) + 1; // returns a number between 1 and 100
+    }
+}
+
+
+// Step 5: RandomNumberClient
+
+package org.howard.edu.lsp.finalexam.question2;
+
+/**
+ * Client program that uses the RandomNumberService to generate random numbers
+ * using different strategies.
+ */
+public class RandomNumberClient {
+
+    public static void main(String[] args) {
+        // Get the singleton instance of the RandomNumberService
+        RandomNumberService service = RandomNumberService.getInstance();
+
+        // Use Java built-in Random strategy
+        service.setStrategy(new JavaRandomNumberStrategy());
+        System.out.println("Using Java Random: " + service.generateRandomNumber());
+
+        // Use LCGRandomNumberStrategy
+        service.setStrategy(new LCGRandomNumberStrategy(12345));
+        System.out.println("Using LCG Random: " + service.generateRandomNumber());
+    }
+}
+
+
+/ Output: /
+Using Java Random: 88
+Using LCG Random: 49 
+
+
+
